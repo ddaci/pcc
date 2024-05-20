@@ -1,17 +1,10 @@
-options:
-  logging: CLOUD_LOGGING_ONLY
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/cloudrun/flask-api', '.']
+    args: [ 'build', '-t', 'gcr.io/pcc3/flask-api', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/cloudrun/flask-api']
+    args: [ 'push', 'gcr.io/pcc3/flask-api' ]
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud run deploy flask-api \
-          --image gcr.io/cloudrun/flask-api \
-          --platform managed \
-          --region asia-east1 \
-          --allow-unauthenticated
+    entrypoint: gcloud
+    args: [ 'run', 'deploy', 'flask-api', '--image', 'gcr.io/$PROJECT_ID/flask-api', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated' ]
+images:
+  - 'gcr.io/pcc3/flask-api'
