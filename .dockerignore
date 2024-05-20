@@ -1,0 +1,11 @@
+# Exclude Python cache files
+__pycache__
+*.pyc
+
+# Exclude virtual environments
+venv
+.env
+
+# Exclude other unnecessary files
+.DS_Store
+.git
