@@ -1,10 +1,10 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/pcc3/flask-api', '.' ]
+    args: [ 'build', '-t', 'us-central1-docker.pkg.dev/pcc3/my-repo/flask-api', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'push', 'gcr.io/pcc3/flask-api' ]
+    args: [ 'push', 'us-central1-docker.pkg.dev/pcc3/my-repo/flask-api' ]
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: [ 'run', 'deploy', 'flask-api', '--image', 'gcr.io/$PROJECT_ID/flask-api', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated' ]
+    args: [ 'run', 'deploy', 'flask-api', '--image', 'us-central1-docker.pkg.dev/pcc3/my-repo/flask-api', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated' ]
 images:
-  - 'gcr.io/pcc3/flask-api'
+  - 'us-central1-docker.pkg.dev/pcc3/my-repo/flask-api'
