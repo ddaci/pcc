@@ -1,27 +1,11 @@
-# Folosește imaginea oficială Python ca imagine de bază
-FROM python:3.9-slim
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/flask-api', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/flask-api']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: ['run', 'deploy', 'flask-api', '--image', 'gcr.io/$PROJECT_ID/flask-api', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+images:
+  - 'gcr.io/$PROJECT_ID/flask-api'
 
-# Setați directorul de lucru în container
-WORKDIR /app
-
-# Copiază fișierul requirements.txt în directorul de lucru
-COPY requirements.txt .
-
-# Instalează dependențele din requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiază restul aplicației în container
-COPY . .
-
-# Copiază fișierul de acreditări în container
-COPY credentials.json /app/credentials.json
-
-# Expune portul pe care va rula aplicația
-EXPOSE 5000
-
-# Setează variabilele de mediu necesare pentru Flask și acreditări
-ENV FLASK_APP=app.py
-ENV GOOGLE_APPLICATION_CREDENTIALS="/app/credentials.json"
-
-# Comanda pentru a rula aplicația folosind gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
