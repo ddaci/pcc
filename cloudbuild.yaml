@@ -3,7 +3,6 @@ options:
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/cloudrun/flask-api', '.']
-    secretEnv: ['GOOGLE_APPLICATION_CREDENTIALS']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/cloudrun/flask-api']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -11,9 +10,8 @@ steps:
     args:
       - '-c'
       - |
-        gcloud secrets versions access latest --secret="bigquery-credentials" > /workspace/credentials.json
-        gcloud run deploy flask-api --image gcr.io/cloudrun/flask-api --platform managed --region asia-east1 --allow-unauthenticated --update-env-vars GOOGLE_APPLICATION_CREDENTIALS=/workspace/credentials.json
-availableSecrets:
-  secretManager:
-    - versionName: projects/cloudrun/secrets/bigquery-credentials/versions/latest
-      env: 'GOOGLE_APPLICATION_CREDENTIALS'
+        gcloud run deploy flask-api \
+          --image gcr.io/cloudrun/flask-api \
+          --platform managed \
+          --region asia-east1 \
+          --allow-unauthenticated
