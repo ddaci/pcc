@@ -18,7 +18,7 @@ def home():
 def get_bigquery_data():
     client = bigquery.Client()
     query = """
-        SELECT * FROM `flaskapidockercloudrunbigquery.carti.carti`
+        SELECT * FROM `cloudrun.cartidb.carti`
         LIMIT 10
     """
     query_job = client.query(query)
@@ -36,7 +36,7 @@ def get_books_by_author():
 
     client = bigquery.Client()
     query = f"""
-        SELECT * FROM `flaskapidockercloudrunbigquery.carti.carti`
+        SELECT * FROM `cloudrun.cartidb.carti`
         WHERE author = '{author}'
     """
     query_job = client.query(query)
@@ -56,7 +56,7 @@ def get_books_by_year():
 
     client = bigquery.Client()
     query = """
-        SELECT * FROM `flaskapidockercloudrunbigquery.carti.carti`
+        SELECT * FROM `cloudrun.cartidb.carti`
         WHERE CAST(published AS STRING) LIKE @published_year
     """
     job_config = bigquery.QueryJobConfig(
@@ -92,7 +92,7 @@ def add_book():
         return jsonify({"error": "Missing required fields"}), 400
 
     client = bigquery.Client()
-    table_id = "flaskapidockercloudrunbigquery.carti.carti"
+    table_id = "cloudrun.cartidb.carti"
     rows_to_insert = [
         {
             "title": title,
