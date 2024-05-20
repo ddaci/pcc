@@ -1,11 +1,11 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/flask-api', '.']
+    args: ['build', '-t', 'gcr.io/cloudrun/flask-api', '.']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/flask-api']
+    args: ['push', 'gcr.io/cloudrun/flask-api']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'flask-api', '--image', 'gcr.io/$PROJECT_ID/flask-api', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'flask-api', '--image', 'gcr.io/cloudrun/flask-api', '--platform', 'managed', '--region', 'aisa-east1', '--allow-unauthenticated']
 images:
-  - 'gcr.io/$PROJECT_ID/flask-api'
+  - 'gcr.io/cloudrun/flask-api'
 
