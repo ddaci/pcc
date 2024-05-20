@@ -1,23 +1,23 @@
-# Folosește imaginea oficială Python ca imagine de bază
+# Folosim imaginea oficială Python ca bază
 FROM python:3.9-slim
 
-# Setați directorul de lucru în container
+# Setăm directorul de lucru în container
 WORKDIR /app
 
-# Copiază fișierul requirements.txt în directorul de lucru
-COPY requirements.txt .
+# Copiem fișierele requirements.txt în container
+COPY requirements.txt requirements.txt
 
-# Instalează dependențele din requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalăm dependențele specificate în requirements.txt
+RUN pip install -r requirements.txt
 
-# Copiază restul aplicației în container
+# Copiem restul fișierelor aplicației în container
 COPY . .
 
-# Expune portul pe care va rula aplicația
-EXPOSE 5000
-
-# Setează variabilele de mediu necesare pentru Flask
+# Setăm variabilele de mediu
 ENV FLASK_APP=app.py
 
-# Comanda pentru a rula aplicația folosind gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Expunem portul pe care rulează aplicația Flask
+EXPOSE 8080
+
+# Comanda de start pentru aplicație
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
