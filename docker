@@ -13,15 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiază restul aplicației în container
 COPY . .
 
-# Copiază fișierul de acreditări în container
-COPY credentials.json /app/credentials.json
-
 # Expune portul pe care va rula aplicația
 EXPOSE 5000
 
-# Setează variabilele de mediu necesare pentru Flask și acreditări
+# Setează variabilele de mediu necesare pentru Flask
 ENV FLASK_APP=app.py
-ENV GOOGLE_APPLICATION_CREDENTIALS="/app/credentials.json"
 
 # Comanda pentru a rula aplicația folosind gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
